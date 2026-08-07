@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetherfield — Article</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <a href="index.html" class="logo">Aetherfield</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="index.html#journal" class="nav-link">Journal</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#careers" class="nav-link">Careers</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Article Single Page -->
+  <main class="container article-single-page" id="article-single">
+    <!-- Кнопка Назад -->
+    <a href="index.html" class="back-link">&larr; Back to Journal</a>
+
+    <!-- Данные статьи будут подставлены через JS -->
+    <div id="article-detail-container">
+      <div class="loading">Loading article...</div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Aetherfield. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+<!-- AI Assistant Chat Widget -->
+  <div id="ai-widget" class="ai-widget">
+    <button id="ai-toggle-btn" class="ai-toggle-btn" title="Ask AetherAI">
+      ✨ <span>AetherAI</span>
+    </button>
+
+    <div id="ai-chat-window" class="ai-chat-window">
+      <div class="ai-chat-header">
+        <div class="ai-chat-title">✨ AetherAI Assistant</div>
+        <button id="ai-close-btn" class="ai-close-btn">&times;</button>
+      </div>
+      <div id="ai-messages" class="ai-messages">
+        <div class="ai-msg bot">Hi! I'm AetherAI. Ask me about articles, topics (Design, Tech), or careers at Aetherfield!</div>
+      </div>
+      <form id="ai-form" class="ai-input-form">
+        <input type="text" id="ai-input" placeholder="Ask AI..." required autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

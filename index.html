@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetherfield — Design & Tech Journal</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <a href="index.html" class="logo">Aetherfield</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="careers.html" class="nav-link">Careers</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle" title="Toggle Theme">🌓</button>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="container hero">
+    <span class="hero-badge">Digital Publication 2026</span>
+    <h1 class="hero-title">Spatial Design,<br>Code & Digital Culture</h1>
+    <p class="hero-subtitle">High-signal essays on interaction engineering, minimalist architectures, and async product culture.</p>
+    
+    <!-- Stats Section -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">120K+</div>
+        <div class="stat-label">Monthly Readers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">48</div>
+        <div class="stat-label">Published Essays</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Independent & Ad-Free</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter & Search Controls -->
+  <div class="container controls-bar">
+    <div class="filter-group">
+      <button class="filter-btn active" data-category="All">All Articles</button>
+      <button class="filter-btn" data-category="Design">Design</button>
+      <button class="filter-btn" data-category="Technology">Technology</button>
+      <button class="filter-btn" data-category="Careers">Careers</button>
+    </div>
+
+    <div class="search-wrapper">
+      <input type="text" id="search-input" class="search-input" placeholder="Search articles...">
+    </div>
+  </div>
+
+  <!-- Articles Grid -->
+  <main class="container">
+    <div id="articles-container" class="articles-grid"></div>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-card">
+      <h2>Stay Ahead of Digital Trends</h2>
+      <p>Subscribe to receive our bi-weekly digest on spatial UX, system architecture, and tech philosophy.</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+        <input type="email" class="newsletter-input" placeholder="Enter your email address..." required>
+        <button type="submit" class="filter-btn active">Subscribe</button>
+      </form>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"Aetherfield is one of the very few blogs I read cover-to-cover. The quality of spatial UI breakdowns is unmatched."</p>
+        <div class="testimonial-author">
+          <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar">
+          <div>
+            <div class="testimonial-name">Sophia Martinez</div>
+            <div class="testimonial-role">Staff Designer at Stripe</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <p class="testimonial-quote">"Essential reading for anyone interested in modern WebAssembly tools and lightweight frontend architecture."</p>
+        <div class="testimonial-author">
+          <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Avatar">
+          <div>
+            <div class="testimonial-name">David Kovic</div>
+            <div class="testimonial-role">Principal Engineer at Vercel</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- AI Chat Widget -->
+  <div id="ai-widget" class="ai-widget">
+    <button id="ai-toggle-btn" class="ai-toggle-btn">
+      ✨ <span>AetherAI</span>
+    </button>
+
+    <div id="ai-chat-window" class="ai-chat-window">
+      <div class="ai-chat-header">
+        <div>✨ AetherAI Assistant</div>
+        <button id="ai-close-btn" class="ai-close-btn">&times;</button>
+      </div>
+
+      <div class="ai-quick-actions">
+        <button class="ai-quick-btn" data-action="help">❓ Help Me</button>
+        <button class="ai-quick-btn" data-action="random">🎲 Random Article</button>
+        <button class="ai-quick-btn" data-action="tldr">💡 TL;DR Latest</button>
+      </div>
+
+      <div id="ai-messages" class="ai-messages">
+        <div class="ai-msg bot">Hi! Type <b>"help me"</b> or click the button above to see what I can do for you!</div>
+      </div>
+
+      <form id="ai-form" class="ai-input-form">
+        <input type="text" id="ai-input" placeholder="Ask AI..." required autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Aetherfield Journal. Designed with spatial aesthetics.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
