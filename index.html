@@ -68,38 +68,42 @@
   <main class="container">
     <div id="articles-container" class="articles-grid"></div>
 
-    <!-- Newsletter Section -->
+    <!-- Newsletter Section (ФИКС) -->
     <section class="newsletter-card">
       <h2>Stay Ahead of Digital Trends</h2>
-      <p>Subscribe to receive our bi-weekly digest on spatial UX, system architecture, and tech philosophy.</p>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 6px;">Subscribe to receive our bi-weekly digest on spatial UX, system architecture, and tech philosophy.</p>
       <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
         <input type="email" class="newsletter-input" placeholder="Enter your email address..." required>
-        <button type="submit" class="filter-btn active">Subscribe</button>
+        <button type="submit" class="filter-btn active" style="padding: 12px 24px; border-radius: 12px;">Subscribe</button>
       </form>
     </section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials-grid">
-      <div class="testimonial-card">
-        <p class="testimonial-quote">"Aetherfield is one of the very few blogs I read cover-to-cover. The quality of spatial UI breakdowns is unmatched."</p>
-        <div class="testimonial-author">
-          <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar">
-          <div>
-            <div class="testimonial-name">Sophia Martinez</div>
-            <div class="testimonial-role">Staff Designer at Stripe</div>
+    <!-- Testimonials Section (ФИКС) -->
+    <section class="testimonials-section">
+      <div class="testimonials-grid">
+        
+        <div class="testimonial-card">
+          <p class="testimonial-quote">"Aetherfield is one of the very few blogs I read cover-to-cover. The quality of spatial UI breakdowns is unmatched."</p>
+          <div class="testimonial-author">
+            <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar">
+            <div class="testimonial-info">
+              <h4>Sophia Martinez</h4>
+              <p>Staff Designer at Stripe</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="testimonial-card">
-        <p class="testimonial-quote">"Essential reading for anyone interested in modern WebAssembly tools and lightweight frontend architecture."</p>
-        <div class="testimonial-author">
-          <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Avatar">
-          <div>
-            <div class="testimonial-name">David Kovic</div>
-            <div class="testimonial-role">Principal Engineer at Vercel</div>
+        <div class="testimonial-card">
+          <p class="testimonial-quote">"Essential reading for anyone interested in modern WebAssembly tools and lightweight frontend architecture."</p>
+          <div class="testimonial-author">
+            <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Avatar">
+            <div class="testimonial-info">
+              <h4>David Kovic</h4>
+              <p>Principal Engineer at Vercel</p>
+            </div>
           </div>
         </div>
+
       </div>
     </section>
   </main>
@@ -135,7 +139,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2026 Aetherfield Journal. Designed with spatial aesthetics.</p>
+      <p>The website was created by Kateryna Lupehka for her personal partfolio<p>
     </div>
   </footer>
 

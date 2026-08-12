@@ -96,9 +96,36 @@
       </form>
     </div>
   </div>
+<!-- AI Chat Widget -->
+  <div id="ai-widget" class="ai-widget">
+    <button id="ai-toggle-btn" class="ai-toggle-btn">
+      ✨ <span>AetherAI</span>
+    </button>
 
+    <div id="ai-chat-window" class="ai-chat-window">
+      <div class="ai-chat-header">
+        <div>✨ AetherAI Assistant</div>
+        <button id="ai-close-btn" class="ai-close-btn">&times;</button>
+      </div>
+
+      <div class="ai-quick-actions">
+        <button class="ai-quick-btn" data-action="help">❓ Help Me</button>
+        <button class="ai-quick-btn" data-action="random">🎲 Random Article</button>
+        <button class="ai-quick-btn" data-action="tldr">💡 TL;DR Latest</button>
+      </div>
+
+      <div id="ai-messages" class="ai-messages">
+        <div class="ai-msg bot">Hi! Type <b>"help me"</b> or click the button above to see what I can do for you!</div>
+      </div>
+
+      <form id="ai-form" class="ai-input-form">
+        <input type="text" id="ai-input" placeholder="Ask AI..." required autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
   <footer class="footer" style="margin-top: 80px;">
-    <div class="container"><p>&copy; 2026 Aetherfield Journal.</p></div>
+    <div class="container">      <p>The website was created by Kateryna Lupehka for her personal partfolio<p></p></div>
   </footer>
 
   <!-- GSAP & Canvas Confetti Libraries -->

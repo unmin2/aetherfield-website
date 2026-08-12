@@ -1,5 +1,4 @@
-// ==========================================
-// 1. ДАННЫЕ (БАЗА КОНТЕНТА С ПОЛНЫМИ ТЕКСТАМИ)
+// ==========================================ДАННЫЕ (БАЗА КОНТЕНТА С ПОЛНЫМИ ТЕКСТАМИ)
 // ==========================================
 
 const articlesData = [
@@ -170,7 +169,7 @@ const jobsData = [
 ];
 
 // ==========================================
-// 2. ИНИЦИАЛИЗАЦИЯ
+//  ИНИЦИАЛИЗАЦИЯ
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -184,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// 3. ФУНКЦИОНАЛЬНЫЕ МОДУЛИ
+// ФУНКЦИОНАЛЬНЫЕ МОДУЛИ
 // ==========================================
 
 // --- ТЕМА (DARK/LIGHT) ---
@@ -346,7 +345,7 @@ function initGSAP() {
   }
 }
 
-// --- CONFETTI & MODAL ---
+
 function initConfetti() {
   const applyBtns = document.querySelectorAll('.apply-btn');
   const modalOverlay = document.getElementById('apply-modal');
