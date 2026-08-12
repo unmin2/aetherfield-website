@@ -182,19 +182,22 @@ document.addEventListener('DOMContentLoaded', () => {
   initAIAssistant();
 });
 
-// ==========================================
-// ФУНКЦИОНАЛЬНЫЕ МОДУЛИ
-// ==========================================
-
 // --- ТЕМА (DARK/LIGHT) ---
 function initTheme() {
+  // 1. Сначала СРАЗУ применяем сохранённую тему для ВСЕХ страниц
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+  } else {
+    document.body.classList.remove('light-theme');
+  }
+
+  // 2. И только потом ищем кнопку переключателя (если она есть на этой странице)
   const themeToggle = document.getElementById('theme-toggle');
   if (!themeToggle) return;
 
-  if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-theme');
-    updateThemeIcon(true);
-  }
+  // Обновляем иконку на кнопке
+  updateThemeIcon(savedTheme === 'light');
 
   themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-theme');
@@ -211,7 +214,6 @@ function initTheme() {
     }
   }
 }
-
 // --- МОБИЛЬНОЕ МЕНЮ ---
 function initMobileMenu() {
   const menuBtn = document.getElementById('mobile-menu-btn');
@@ -388,7 +390,7 @@ function initConfetti() {
   }
 }
 
-// --- ИИ-ПОМОЩНИК (AETHERAI) ---
+// --- AI ASSISTANT (AETHERAI CORE V3 — DEEP REASONING) ---
 function initAIAssistant() {
   const toggleBtn = document.getElementById('ai-toggle-btn');
   const closeBtn = document.getElementById('ai-close-btn');
@@ -403,12 +405,14 @@ function initAIAssistant() {
   toggleBtn.addEventListener('click', () => chatWindow.classList.toggle('active'));
   if (closeBtn) closeBtn.addEventListener('click', () => chatWindow.classList.remove('active'));
 
+  setupVoiceInput();
+
   quickBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const action = btn.getAttribute('data-action');
-      if (action === 'help') processUserMessage('help me');
-      if (action === 'random') processUserMessage('recommend random');
-      if (action === 'tldr') processUserMessage('summarize top article');
+      if (action === 'help') processUserMessage('help');
+      if (action === 'random') processUserMessage('recommend article');
+      if (action === 'tldr') processUserMessage('latest article summary');
     });
   });
 
@@ -422,34 +426,183 @@ function initAIAssistant() {
     });
   }
 
+  // --- Voice Input (Web Speech API) ---
+  function setupVoiceInput() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+
+    if (form && !document.getElementById('ai-mic-btn')) {
+      const micBtn = document.createElement('button');
+      micBtn.type = 'button';
+      micBtn.id = 'ai-mic-btn';
+      micBtn.className = 'ai-mic-btn';
+      micBtn.innerHTML = '🎙️';
+      micBtn.title = 'Voice Input';
+      form.insertBefore(micBtn, form.querySelector('button[type="submit"]'));
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+
+      micBtn.addEventListener('click', () => {
+        try {
+          recognition.start();
+          micBtn.classList.add('recording');
+        } catch (err) {
+          recognition.stop();
+          micBtn.classList.remove('recording');
+        }
+      });
+
+      recognition.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        micBtn.classList.remove('recording');
+        processUserMessage(transcript);
+      };
+
+      recognition.onerror = recognition.onend = () => micBtn.classList.remove('recording');
+    }
+  }
+
+  // --- Reasoning Engine ---
   function processUserMessage(text) {
-    addMessage(text, 'user');
+    addMessage(escapeHtml(text), 'user');
+
+    // 1. Create Thinking block
+    const thinkingId = showThinkingProcess();
+
+    // Simulated two-step deep reasoning
+    setTimeout(() => {
+      updateThinkingStep(thinkingId, "Analyzing context and Aetherfield knowledge base...");
+    }, 600);
 
     setTimeout(() => {
-      const query = text.toLowerCase().trim();
-      let response = "";
+      updateThinkingStep(thinkingId, "Formulating a comprehensive response...");
+    }, 1200);
 
-      if (query.includes('help me') || query === 'help' || query.includes('sos')) {
-        response = `
-          👋 <b>Here is how I can help you today:</b><br><br>
-          • Type <b>"Design"</b> or <b>"Tech"</b> to see specific topics.<br>
-          • Type <b>"Recommend"</b> to get a random article.<br>
-          • Type <b>"Careers"</b> to explore job opportunities.
-        `;
-      } else if (query.includes('random') || query.includes('recommend')) {
-        const randomArt = articlesData[Math.floor(Math.random() * articlesData.length)];
-        response = `🎲 Recommended read: <b><a href="article.html?id=${randomArt.id}" style="color:var(--accent-color); text-decoration:underline;">${randomArt.title}</a></b> (${randomArt.category}).`;
-      } else if (query.includes('summarize') || query.includes('tldr')) {
-        const topArt = articlesData[0];
-        response = `💡 <b>Latest Article Summary:</b> "${topArt.summary}"`;
-      } else if (query.includes('career') || query.includes('job')) {
-        response = `💼 We have ${jobsData.length} open roles. Visit our <a href="careers.html" style="color:var(--accent-color);">Careers Page</a>!`;
-      } else {
-        response = `I am here to help! Try typing <b>"Design"</b>, <b>"Recommend"</b>, or <b>"help me"</b>!`;
-      }
-
+    setTimeout(() => {
+      removeThinkingProcess(thinkingId);
+      const response = generateThoughtfulResponse(text);
       addMessage(response, 'bot');
-    }, 400);
+    }, 1800);
+  }
+
+  // Thoughtful Response Generator
+  function generateThoughtfulResponse(userText) {
+    const q = userText.toLowerCase().trim();
+
+    // 1. Search database
+    const matchedArticles = articlesData.filter(a =>
+      a.title.toLowerCase().includes(q) ||
+      a.summary.toLowerCase().includes(q) ||
+      a.category.toLowerCase().includes(q) ||
+      a.content.toLowerCase().includes(q)
+    );
+
+    // 2. Dialogue logic
+    if (q.includes('hi') || q.includes('hello') || q.includes('hey') || q.includes('greetings')) {
+      return `Hello! I'm **AetherAI**, your assistant at *Aetherfield*. <br><br>I can help you explore spatial interfaces, WebAssembly, modern UI/UX standards, and engineering careers. What would you like to discover today?`;
+    }
+
+    if (q.includes('help') || q.includes('sos') || q.includes('what can you do')) {
+      return `
+        I'd be glad to guide you around our platform:<br><br>
+        • <b>Article Analysis:</b> Ask me about <i>Design, WebAssembly, AI, or Spatial Computing</i> to get tailored articles.<br>
+        • <b>Summaries & Recommendations:</b> Say <i>"recommend an article"</i> or <i>"summarize latest"</i>.<br>
+        • <b>Careers:</b> Check our latest open job positions.<br>
+        • <b>Customization:</b> Ask me to <i>"switch to light theme"</i> or <i>"dark mode"</i>.<br><br>
+        Feel free to type your query or press the 🎙️ icon to speak!
+      `;
+    }
+
+    if (q.includes('recommend') || q.includes('random') || q.includes('suggest')) {
+      const art = articlesData[Math.floor(Math.random() * articlesData.length)];
+      return `
+        I reviewed our library and picked this for you:<br><br>
+        📖 <b><a href="article.html?id=${art.id}" style="color:var(--accent-color); text-decoration:underline;">${art.title}</a></b><br>
+        <small>Category: ${art.category} • Read time: ${art.readTime}</small><br><br>
+        <i>"${art.summary}"</i><br><br>
+        Would you like more articles from this category?
+      `;
+    }
+
+    if (q.includes('latest') || q.includes('recent') || q.includes('new') || q.includes('tldr')) {
+      const top = articlesData[0];
+      return `
+        Here is the newest publication in our journal:<br><br>
+        ✨ <b><a href="article.html?id=${top.id}" style="color:var(--accent-color); text-decoration:underline;">${top.title}</a></b><br><br>
+        <b>Overview:</b> ${top.summary}<br><br>
+        You can jump right into reading, or ask me for key takeaways!
+      `;
+    }
+
+    if (q.includes('job') || q.includes('career') || q.includes('work') || q.includes('hiring')) {
+      const jobsList = jobsData.map(j => `• <b>${j.role}</b> — <i>${j.dept}</i> (${j.type})`).join('<br>');
+      return `
+        We're always looking for talented folks! Here are our currently open roles:<br><br>
+        ${jobsList}<br><br>
+        Detailed requirements and application forms can be found on our <a href="careers.html" style="color:var(--accent-color); text-decoration:underline;">Careers Page</a>.
+      `;
+    }
+
+    if (q.includes('light')) {
+      document.body.classList.add('light-theme');
+      localStorage.setItem('theme', 'light');
+      return `All set! Switched the interface to **Light Theme**. ☀️`;
+    }
+
+    if (q.includes('dark')) {
+      document.body.classList.remove('light-theme');
+      localStorage.setItem('theme', 'dark');
+      return `Done! Returned to **Dark Theme**. 🌙`;
+    }
+
+    if (matchedArticles.length > 0) {
+      const items = matchedArticles.slice(0, 3).map(a => 
+        `• <a href="article.html?id=${a.id}" style="color:var(--accent-color); text-decoration:underline;"><b>${a.title}</b></a> (${a.category})<br><small style="opacity:0.8;">${a.summary}</small>`
+      ).join('<br><br>');
+
+      return `
+        I searched our knowledge base and found ${matchedArticles.length} matching article(s):<br><br>
+        ${items}<br><br>
+        Which one would you like to explore first?
+      `;
+    }
+
+    return `
+      Hmm, I was thinking about your query: <i>"${escapeHtml(userText)}"</i>, but couldn't find an exact match in our current articles.<br><br>
+      Try searching by main topics: <b>Spatial Design, WebAssembly, UX, Async Culture</b>, or type <i>"help"</i>!
+    `;
+  }
+
+  // --- Thinking Process UI ---
+  function showThinkingProcess() {
+    const id = 'thinking-' + Date.now();
+    const div = document.createElement('div');
+    div.id = id;
+    div.className = 'ai-msg bot ai-thinking-block';
+    div.innerHTML = `
+      <div class="ai-thinking-header">
+        <span class="ai-brain-icon">🧠</span> 
+        <span class="ai-thinking-text">Thinking...</span>
+      </div>
+    `;
+    messagesContainer.appendChild(div);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    return id;
+  }
+
+  function updateThinkingStep(id, text) {
+    const el = document.getElementById(id);
+    if (el) {
+      const textEl = el.querySelector('.ai-thinking-text');
+      if (textEl) textEl.textContent = text;
+    }
+  }
+
+  function removeThinkingProcess(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
   }
 
   function addMessage(htmlContent, type) {
@@ -458,5 +611,9 @@ function initAIAssistant() {
     msgDiv.innerHTML = htmlContent;
     messagesContainer.appendChild(msgDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   }
 }

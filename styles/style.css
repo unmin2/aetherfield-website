@@ -43,7 +43,7 @@ html, body {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Boogaloo", sans-serif;
   background-color: var(--bg-color);
   background-image: var(--bg-gradient);
   background-attachment: fixed;
@@ -146,7 +146,7 @@ a {
 .stat-card {
   background: var(--card-bg); border: 1px solid var(--card-border);
   padding: 24px 20px; border-radius: 20px; text-align: center; backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  box-shadow: 10px 10px 8px 2px rgba(0, 0, 0, 0.3);
   min-width: 0;
 }
 .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--accent-color); margin-bottom: 4px; }
@@ -178,7 +178,11 @@ a {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   display: flex; flex-direction: column;
 }
-.article-card:hover { transform: translateY(-8px); border-color: var(--accent-color); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+.article-card:hover { transform: translateY(-8px); 
+  border-color: var(--accent-color); 
+
+  box-shadow: 10px 10px 8px 2px rgba(0, 0, 0, 0.3);
+}
 .article-card.featured { grid-column: span 12; display: grid; grid-template-columns: 1.3fr 1fr; }
 .article-image-wrapper { width: 100%; height: 240px; overflow: hidden; position: relative; }
 .article-card.featured .article-image-wrapper { height: 100%; min-height: 380px; }
@@ -355,12 +359,28 @@ a {
 .footer { border-top: 1px solid var(--divider-color); padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
 
 /*  MEDIA QUERIES  */
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .hero-title { font-size: 2.8rem; }
   .articles-grid { grid-template-columns: repeat(6, 1fr); }
   .article-card { grid-column: span 3; }
   .article-card.featured { grid-column: span 6; grid-template-columns: 1fr; }
   .team-grid, .benefits-grid { grid-template-columns: 1fr; }
+
+  .stat-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+ border-radius: 20px;
+  text-align: center; 
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  min-width: 0;
+max-width: 300px;
+
+.container.hero {
+padding: 0 24px;
+}
+
+}
+
 }
 
 @media (max-width: 768px) {
@@ -390,9 +410,7 @@ a {
 max-width: 300px;
 
 }
-.stats-grid {
-  margin: 24px 24px 24px;
-}
+
 .container.hero {
 padding: 0 24px;
 }
@@ -429,6 +447,108 @@ max-width: 300px;
 }
 .container.hero {
 padding: 0 24px;
+ justify-content: center;
 }
   
+}
+/* Кнопка микрофона в ИИ чате */
+.ai-mic-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 8px;
+  transition: transform 0.2s ease;
+}
+
+.ai-mic-btn.recording {
+  animation: pulse-mic 1s infinite alternate;
+}
+
+@keyframes pulse-mic {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px #ef4444); }
+  100% { transform: scale(1.25); filter: drop-shadow(0 0 8px #ef4444); }
+}
+
+/* Индикатор печати (...) */
+.ai-typing span {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1.2rem;
+  animation: typing-dots 1.4s infinite ease-in-out both;
+}
+
+.ai-typing span:nth-child(1) { animation-delay: 0s; }
+.ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing-dots {
+  0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+/* Блок размышлений ассистента */
+.ai-thinking-block {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--card-border);
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.ai-thinking-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-brain-icon {
+  display: inline-block;
+  animation: brain-pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes brain-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+/* ================= AI CHAT HEADER & CLOSE BUTTON ================= */
+.ai-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+/* Кнопка закрытия (крестик) */
+.ai-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+/* Ховер и активное состояние */
+.ai-close-btn:hover {
+  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.1);
+}
+
+.ai-close-btn:active {
+  transform: scale(0.95);
 }
