@@ -397,3 +397,38 @@ max-width: 300px;
 padding: 0 24px;
 }
 }
+@media (max-width: 428px) {
+   .hero-title { font-size: 2.2rem; }
+  .nav-links { 
+    display: none; flex-direction: column; position: absolute; 
+    top: 72px; left: 0; width: 100%; background: var(--bg-color); 
+    padding: 24px; border-bottom: 1px solid var(--divider-color); 
+  }
+  .nav-links.active { display: flex; }
+  .mobile-menu-btn { display: flex; }
+  .articles-grid { grid-template-columns: 1fr; }
+  .article-card { grid-column: span 1 !important; }
+  .article-card.featured { grid-template-columns: 1fr; }
+  .controls-bar { flex-direction: column; align-items: stretch; }
+  .job-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .newsletter-form { flex-direction: column; }
+
+  .stat-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+ border-radius: 20px;
+  text-align: center; 
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  min-width: 0;
+max-width: 300px;
+
+}
+.stats-grid {
+  margin: 24px 24px 24px;
+}
+.container.hero {
+padding: 0 24px;
+}
+  
+}
